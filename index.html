@@ -10,108 +10,287 @@
 </head>
 <body>
     <div class="background-gradient"></div>
-    
-    <div class="container">
-        <header class="main-header">
-            <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <h1>Infinity<span>Price</span></h1>
-            </div>
-            <p>Transforme seus custos em lucro real</p>
-        </header>
 
-        <main class="dashboard">
-            <!-- Coluna de Inputs -->
-            <div class="input-section">
-                <div class="card">
-                    <h3><i class="fas fa-box-open"></i> Custos Diretos</h3>
-                    <div class="input-wrapper">
-                        <label>Matéria-prima</label>
-                        <div class="field">
-                            <span>R$</span>
-                            <input type="number" id="mat" placeholder="0,00">
-                        </div>
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Mão de Obra</label>
-                        <div class="field">
-                            <span>R$</span>
-                            <input type="number" id="labor" placeholder="0,00">
-                        </div>
-                    </div>
+    <div id="authView" class="auth-shell">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Infinity<span>Price</span></h1>
                 </div>
-
-                <div class="card">
-                    <h3><i class="fas fa-percent"></i> Margens e Taxas</h3>
-                    <div class="grid-inputs">
-                        <div class="input-wrapper">
-                            <label>Margem (%)</label>
-                            <input type="number" id="markup" placeholder="30">
-                        </div>
-                        <div class="input-wrapper">
-                            <label>Impostos (%)</label>
-                            <input type="number" id="tax" placeholder="6">
-                        </div>
-                    </div>
+                <div class="auth-toggle" aria-label="Alternar entre login e cadastro">
+                    <button type="button" class="auth-tab active" data-auth="login">Login</button>
+                    <button type="button" class="auth-tab" data-auth="register">Cadastro</button>
                 </div>
             </div>
 
-            <!-- Coluna de Resultado -->
-            <div class="result-section">
-                <div class="card summary-card">
-                    <span class="label-highlight">Preço Sugerido</span>
-                    <div class="main-price">
-                        <small>R$</small>
-                        <strong id="final-price">0,00</strong>
-                    </div>
-                    
-                    <div class="stats-row">
-                        <div class="stat">
-                            <span>Custo Total</span>
-                            <b id="total-cost-view">R$ 0,00</b>
-                        </div>
-                        <div class="stat">
-                            <span>Lucro Bruto</span>
-                            <b id="profit-view">R$ 0,00</b>
-                        </div>
-                    </div>
-
-                    <button class="action-btn" onclick="calculate()">
-                        Atualizar Cálculos <i class="fas fa-sync-alt"></i>
-                    </button>
+            <form id="loginForm" class="auth-form active">
+                <div class="auth-field">
+                    <label for="loginEmail">E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="seuemail@empresa.com" required>
                 </div>
-            </div>
-        </main>
+
+                <div class="auth-field">
+                    <label for="loginPassword">Senha</label>
+                    <input type="password" id="loginPassword" placeholder="********" required>
+                </div>
+
+                <button type="submit" class="action-btn auth-submit">Entrar</button>
+            </form>
+
+            <form id="registerForm" class="auth-form">
+                <div class="auth-field">
+                    <label for="registerName">Nome Completo / Razão Social</label>
+                    <input type="text" id="registerName" placeholder="Informe seu nome ou razão social" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="registerDocument">CPF / CNPJ</label>
+                    <input type="text" id="registerDocument" placeholder="000.000.000-00 / 00.000.000/0000-00" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="registerEmail">E-mail</label>
+                    <input type="email" id="registerEmail" placeholder="seuemail@empresa.com" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="registerPassword">Senha</label>
+                    <input type="password" id="registerPassword" placeholder="Crie uma senha" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="registerConfirmPassword">Confirmar Senha</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirme sua senha" required>
+                </div>
+
+                <button type="submit" class="action-btn auth-submit">Cadastrar</button>
+            </form>
+        </div>
     </div>
-    <script src="index.js"></script>
-</body>
-</html>
 
-            <!-- Seção de Margens -->
-            <section class="card">
-                <h2>Margem e Impostos</h2>
-                <div class="input-group">
-                    <label for="markup">Margem de Lucro Desejada (%)</label>
-                    <input type="number" id="markup" placeholder="ex: 30">
+    <div id="appView" class="app-shell hidden">
+        <div class="container">
+            <header class="main-header app-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Infinity<span>Price</span></h1>
                 </div>
-                <div class="input-group">
-                    <label for="taxes">Impostos e Taxas (%)</label>
-                    <input type="number" id="taxes" placeholder="ex: 10">
+                <div class="user-actions">
+                    <span id="welcomeUser">Olá, usuário</span>
+                    <button type="button" id="updateProfileBtn" class="secondary-btn small-btn">Atualizar cadastro</button>
+                    <button type="button" id="logoutBtn" class="ghost-btn small-btn">Sair</button>
+                </div>
+            </header>
+
+            <div id="dashboardView" class="view-panel">
+                <main class="dashboard">
+                    <div class="input-section">
+                        <div class="card">
+                            <h3><i class="fas fa-box-open"></i> Custos Diretos</h3>
+                            <div class="input-wrapper">
+                                <label>Matéria-prima</label>
+                                <div class="field">
+                                    <span>R$</span>
+                                    <input type="number" id="mat" placeholder="0,00">
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>Mão de Obra</label>
+                                <div class="field">
+                                    <span>R$</span>
+                                    <input type="number" id="labor" placeholder="0,00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fas fa-percent"></i> Margens e Taxas</h3>
+                            <div class="grid-inputs">
+                                <div class="input-wrapper">
+                                    <label>Margem (%)</label>
+                                    <input type="number" id="markup" placeholder="30">
+                                </div>
+                                <div class="input-wrapper">
+                                    <label>Impostos (%)</label>
+                                    <input type="number" id="tax" placeholder="6">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fas fa-cubes"></i> Modelo de Negócio</h3>
+                            <div class="input-wrapper">
+                                <label>Tipo de precificação</label>
+                                <select id="businessModel">
+                                    <option value="produto">Produto</option>
+                                    <option value="servico">Serviço</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card cost-card">
+                            <h3><i class="fas fa-tools"></i> Cadastro de Gastos / Mão de Obra</h3>
+
+                            <div class="cost-form">
+                                <div class="input-wrapper compact">
+                                    <label>Descrição</label>
+                                    <input type="text" id="costName" placeholder="Ex.: Fibra de poliéster, Revisão, Transporte...">
+                                </div>
+                                <div class="input-wrapper compact">
+                                    <label>Tipo</label>
+                                    <select id="costType">
+                                        <option value="Materia-prima">Matéria-prima</option>
+                                        <option value="Mao de obra">Mão de obra</option>
+                                        <option value="Servico">Serviço</option>
+                                        <option value="Transporte">Transporte</option>
+                                        <option value="Despesa">Despesa</option>
+                                    </select>
+                                </div>
+                                <div class="input-wrapper compact">
+                                    <label>Valor (R$)</label>
+                                    <div class="field">
+                                        <span>R$</span>
+                                        <input type="number" id="costValue" step="0.01" min="0" placeholder="0,00">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="secondary-btn add-cost-btn" type="button" id="addCostBtn">
+                                <i class="fas fa-plus"></i> Adicionar item
+                            </button>
+
+                            <div class="table-wrap costs-table-wrap">
+                                <table class="receipt-table costs-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Descrição</th>
+                                            <th>Tipo</th>
+                                            <th>Valor</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="costTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="card summary-card">
+                            <span class="label-highlight">Preço Sugerido</span>
+                            <div class="main-price">
+                                <small>R$</small>
+                                <strong id="final-price">0,00</strong>
+                            </div>
+
+                            <div class="stats-row">
+                                <div class="stat">
+                                    <span>Custo Total</span>
+                                    <b id="total-cost-view">R$ 0,00</b>
+                                </div>
+                                <div class="stat">
+                                    <span>Lucro Bruto</span>
+                                    <b id="profit-view">R$ 0,00</b>
+                                </div>
+                            </div>
+
+                            <button class="action-btn" type="button" onclick="calculate()">
+                                Atualizar Cálculos <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </main>
+
+                <section class="card export-card">
+                    <div class="export-header">
+                        <div>
+                            <p class="section-kicker">Relatório</p>
+                            <h3><i class="fas fa-file-export"></i> Recebimentos Mensais</h3>
+                        </div>
+                        <div class="export-actions">
+                            <button id="excelBtn" type="button" class="secondary-btn"><i class="fas fa-file-excel"></i> Exportar Excel</button>
+                            <button id="pdfBtn" type="button" class="primary-btn"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="filters">
+                        <div class="filter-item">
+                            <label for="monthFilter">Mês</label>
+                            <select id="monthFilter">
+                                <option value="todos">Todos</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label for="yearFilter">Ano</label>
+                            <select id="yearFilter"></select>
+                        </div>
+                    </div>
+
+                    <div class="receipt-summary">
+                        <div>
+                            <span>Total Geral</span>
+                            <strong id="totalReceitas">R$ 0,00</strong>
+                        </div>
+                        <div>
+                            <span>Quantidade</span>
+                            <strong id="qtdReceitas">0 registros</strong>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="receipt-table">
+                            <thead>
+                                <tr>
+                                    <th>Mês</th>
+                                    <th>Ano</th>
+                                    <th>Recebimento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <section id="profileView" class="view-panel hidden">
+                <div class="card profile-card">
+                    <div class="profile-header">
+                        <h3><i class="fas fa-user-edit"></i> Atualizar Cadastro</h3>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="input-wrapper">
+                            <label>Nome Completo / Razão Social</label>
+                            <input type="text" id="profileName" placeholder="Seu nome completo">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>CPF / CNPJ</label>
+                            <input type="text" id="profileDocument" placeholder="CPF ou CNPJ">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>E-mail</label>
+                            <input type="email" id="profileEmail" placeholder="seuemail@empresa.com">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Telefone</label>
+                            <input type="tel" id="profilePhone" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="input-wrapper full-width">
+                            <label>Endereço</label>
+                            <input type="text" id="profileAddress" placeholder="Rua, número, bairro, cidade, estado">
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button type="button" id="cancelProfileBtn" class="secondary-btn">Cancelar</button>
+                        <button type="button" id="saveProfileBtn" class="primary-btn">Salvar alterações</button>
+                    </div>
                 </div>
             </section>
-
-            <!-- Resultado -->
-            <section class="card result-card">
-                <h2>Preço de Venda Sugerido</h2>
-                <div class="price-display">
-                    <span class="currency">R$</span>
-                    <span id="final-price">0,00</span>
-                </div>
-                <button class="btn-calculate" onclick="calculatePrice()">Calcular Preço</button>
-                <p class="profit-info">Lucro bruto estimado: <span id="profit-value">R$ 0,00</span></p>
-            </section>
-        </main>
+        </div>
     </div>
+
     <script src="index.js"></script>
 </body>
 </html>
