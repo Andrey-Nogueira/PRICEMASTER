@@ -83,23 +83,109 @@
                 </div>
             </header>
 
+            <nav class="primary-navigation" aria-label="Navegação principal">
+                <button class="view-tab active" type="button" data-view="dashboardView" aria-current="page"><i class="fas fa-house"></i><span>Visão geral</span></button>
+                <button class="view-tab" type="button" data-view="catalogView"><i class="fas fa-boxes-stacked"></i><span>Catálogo</span></button>
+                <button class="view-tab" type="button" data-view="salesView"><i class="fas fa-chart-line"></i><span>Vendas</span></button>
+                <button class="view-tab" type="button" data-view="teamView"><i class="fas fa-users" aria-hidden="true"></i><span>Equipe</span></button>
+                <button class="view-tab" type="button" data-view="statementView"><i class="fas fa-arrow-right-arrow-left"></i><span>Extrato</span></button>
+            </nav>
+
             <div id="dashboardView" class="view-panel">
+                <section class="welcome-banner">
+                    <div class="welcome-copy">
+                        <span class="section-kicker">Seu negócio em um só lugar</span>
+                        <h2>Uma visão clara de cada conquista.</h2>
+                        <p>Acompanhe seus resultados, organize seus produtos e mantenha tudo em movimento.</p>
+                    </div>
+                    <button class="primary-btn welcome-action" type="button" data-go-to="salesView"><i class="fas fa-plus"></i> Registrar venda</button>
+                    <div class="welcome-decoration" aria-hidden="true"><i class="fas fa-chart-pie"></i></div>
+                </section>
+
+                <section class="overview-grid" aria-label="Resumo do negócio">
+                    <article class="overview-card overview-revenue">
+                        <div class="overview-icon"><i class="fas fa-arrow-trend-up"></i></div>
+                        <span>Vendas recebidas</span>
+                        <strong id="overviewRevenue">R$ 0,00</strong>
+                        <small>Valores confirmados</small>
+                    </article>
+                    <article class="overview-card overview-pending">
+                        <div class="overview-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <span>Em aberto</span>
+                        <strong id="overviewPending">R$ 0,00</strong>
+                        <small id="overviewPendingCount">0 vendas pendentes</small>
+                    </article>
+                    <article class="overview-card overview-products">
+                        <div class="overview-icon"><i class="fas fa-cube"></i></div>
+                        <span>Itens no catálogo</span>
+                        <strong id="overviewProducts">0</strong>
+                        <small>Produtos e serviços</small>
+                    </article>
+                    <article class="overview-card overview-balance">
+                        <div class="overview-icon"><i class="fas fa-wallet"></i></div>
+                        <span>Saldo em caixa</span>
+                        <strong id="overviewBalance">R$ 0,00</strong>
+                        <small>Entradas menos saídas confirmadas</small>
+                    </article>
+                </section>
+
+                <section class="overview-secondary">
+                    <article class="card chart-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">Desempenho</span>
+                                <h3>Vendas recebidas</h3>
+                            </div>
+                            <span class="chart-period">Últimos 6 meses</span>
+                        </div>
+                        <div id="salesChart" class="sales-chart" role="img" aria-label="Gráfico de vendas recebidas nos últimos seis meses"></div>
+                    </article>
+                    <article class="card recent-sales-card">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-kicker">Movimentação recente</span>
+                                <h3>Últimas vendas</h3>
+                            </div>
+                            <button type="button" class="text-button" data-go-to="salesView">Ver vendas <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div id="recentSales" class="recent-sales-list"></div>
+                    </article>
+                </section>
+
+                <div class="page-section-heading">
+                    <span class="section-kicker">Ferramenta de gestão</span>
+                    <h2>Calcule seu preço ideal</h2>
+                    <p>Encontre o equilíbrio entre custos, taxas e margem de lucro.</p>
+                </div>
+
                 <main class="dashboard">
                     <div class="input-section">
+                        <div class="card">
+                            <h3><i class="fas fa-tag"></i> Identificação</h3>
+                            <div class="input-wrapper">
+                                <label for="serviceName">Nome do serviço ou produto</label>
+                                <input type="text" id="serviceName" maxlength="120" placeholder="Ex.: Instalação de fibra">
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="hourlyRate">Valor da hora (R$) <span class="label-hint">Informativo; não altera o cálculo</span></label>
+                                <input type="number" id="hourlyRate" min="0" step="0.01" placeholder="0,00">
+                            </div>
+                        </div>
+
                         <div class="card">
                             <h3><i class="fas fa-box-open"></i> Custos Diretos</h3>
                             <div class="input-wrapper">
                                 <label>Matéria-prima</label>
                                 <div class="field">
                                     <span>R$</span>
-                                    <input type="number" id="mat" placeholder="0,00">
+                                    <input type="number" id="mat" min="0" step="0.01" placeholder="0,00">
                                 </div>
                             </div>
                             <div class="input-wrapper">
                                 <label>Mão de Obra</label>
                                 <div class="field">
                                     <span>R$</span>
-                                    <input type="number" id="labor" placeholder="0,00">
+                                    <input type="number" id="labor" min="0" step="0.01" placeholder="0,00">
                                 </div>
                             </div>
                         </div>
@@ -108,14 +194,15 @@
                             <h3><i class="fas fa-percent"></i> Margens e Taxas</h3>
                             <div class="grid-inputs">
                                 <div class="input-wrapper">
-                                    <label>Margem (%)</label>
-                                    <input type="number" id="markup" placeholder="30">
+                                    <label for="markup">Margem (%)</label>
+                                    <input type="number" id="markup" step="0.01" placeholder="30" aria-describedby="calculatorMessage">
                                 </div>
                                 <div class="input-wrapper">
-                                    <label>Impostos (%)</label>
-                                    <input type="number" id="tax" placeholder="6">
+                                    <label for="tax">Impostos (%)</label>
+                                    <input type="number" id="tax" step="0.01" placeholder="6" aria-describedby="calculatorMessage">
                                 </div>
                             </div>
+                            <p id="calculatorMessage" class="form-message hidden" role="alert" aria-live="polite"></p>
                         </div>
 
                         <div class="card">
@@ -195,63 +282,224 @@
                                 </div>
                             </div>
 
+                            <div class="price-breakdown" aria-live="polite">
+                                <h3>Composição do preço</h3>
+                                <div class="price-breakdown-row"><span>Mão de obra</span><strong id="laborBreakdown">R$ 0,00 · 0%</strong></div>
+                                <div class="price-breakdown-row"><span>Custos diretos</span><strong id="directCostsBreakdown">R$ 0,00 · 0%</strong></div>
+                                <div class="price-breakdown-row"><span>Taxas e impostos</span><strong id="taxBreakdown">R$ 0,00 · 0%</strong></div>
+                                <div class="price-breakdown-row"><span>Lucro</span><strong id="profitBreakdown">R$ 0,00 · 0%</strong></div>
+                            </div>
+
                             <button class="action-btn" type="button" onclick="calculate()">
                                 Atualizar Cálculos <i class="fas fa-sync-alt"></i>
                             </button>
+                            <div class="calculator-actions">
+                                <button class="secondary-btn" id="saveCalculationBtn" type="button" disabled>Salvar no histórico</button>
+                                <button class="secondary-btn hidden" id="cancelCalculationEditBtn" type="button">Cancelar edição</button>
+                                <button class="primary-btn" id="exportCalculationBtn" type="button" disabled>Exportar PDF</button>
+                            </div>
+                            <p id="pricingDraftMessage" class="form-message hidden" role="status" aria-live="polite"></p>
                         </div>
                     </div>
                 </main>
 
-                <section class="card export-card">
-                    <div class="export-header">
+                <section class="card price-history-card" aria-labelledby="priceHistoryTitle">
+                    <div class="section-heading">
                         <div>
-                            <p class="section-kicker">Relatório</p>
-                            <h3><i class="fas fa-file-export"></i> Recebimentos Mensais</h3>
-                        </div>
-                        <div class="export-actions">
-                            <button id="excelBtn" type="button" class="secondary-btn"><i class="fas fa-file-excel"></i> Exportar Excel</button>
-                            <button id="pdfBtn" type="button" class="primary-btn"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+                            <span class="section-kicker">Cálculos salvos</span>
+                            <h3 id="priceHistoryTitle">Histórico de preços</h3>
                         </div>
                     </div>
-
-                    <div class="filters">
-                        <div class="filter-item">
-                            <label for="monthFilter">Mês</label>
-                            <select id="monthFilter">
-                                <option value="todos">Todos</option>
-                            </select>
-                        </div>
-                        <div class="filter-item">
-                            <label for="yearFilter">Ano</label>
-                            <select id="yearFilter"></select>
-                        </div>
-                    </div>
-
-                    <div class="receipt-summary">
-                        <div>
-                            <span>Total Geral</span>
-                            <strong id="totalReceitas">R$ 0,00</strong>
-                        </div>
-                        <div>
-                            <span>Quantidade</span>
-                            <strong id="qtdReceitas">0 registros</strong>
-                        </div>
-                    </div>
-
-                    <div class="table-wrap">
-                        <table class="receipt-table">
-                            <thead>
-                                <tr>
-                                    <th>Mês</th>
-                                    <th>Ano</th>
-                                    <th>Recebimento</th>
-                                </tr>
-                            </thead>
-                            <tbody id="receiptTableBody"></tbody>
-                        </table>
-                    </div>
+                    <p id="priceHistoryMessage" class="form-message hidden" role="status" aria-live="polite"></p>
+                    <div id="priceHistoryList" class="price-history-list"></div>
                 </section>
+
             </div>
+
+            <section id="catalogView" class="view-panel hidden">
+                <div class="page-section-heading">
+                    <span class="section-kicker">Produtos e serviços</span>
+                    <h2>Organize seus produtos e serviços.</h2>
+                    <p>Cadastre itens, atualize preços e acompanhe o estoque.</p>
+                </div>
+                <div class="management-layout">
+                    <form id="productForm" class="card management-form">
+                        <div class="section-heading"><div><span class="section-kicker">Cadastro</span><h3 id="productFormTitle">Adicionar ao catálogo</h3></div></div>
+                        <input id="productId" type="hidden">
+                        <div class="input-wrapper">
+                            <label for="productKind">Tipo de item</label>
+                            <select id="productKind" required><option value="produto">Produto</option><option value="servico">Serviço</option></select>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="productName">Nome</label>
+                            <input id="productName" type="text" maxlength="200" placeholder="Ex.: Consultoria mensal" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="productCategory">Categoria</label>
+                            <input id="productCategory" type="text" maxlength="80" placeholder="Ex.: Consultoria" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="productDescription">Descrição</label>
+                            <textarea id="productDescription" rows="3" maxlength="500" placeholder="Detalhes do produto ou serviço"></textarea>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="productPrice">Preço unitário (R$)</label>
+                            <input id="productPrice" type="number" min="0.01" max="999999999.99" step="0.01" placeholder="0,00" required>
+                        </div>
+                        <div class="input-wrapper" id="productStockField">
+                            <label for="productStock">Estoque <span class="label-hint">Deixe vazio para quantidade ilimitada</span></label>
+                            <input id="productStock" type="number" min="0" step="1" placeholder="Ex.: 25">
+                        </div>
+                        <div class="form-actions"><button id="cancelProductEdit" class="secondary-btn hidden" type="button">Cancelar</button><button id="productSubmit" class="primary-btn" type="submit"><i class="fas fa-plus"></i> Salvar item</button></div>
+                        <p id="productMessage" class="form-message hidden" role="status" aria-live="polite"></p>
+                    </form>
+                    <section class="card catalog-results">
+                        <div class="section-heading catalog-heading">
+                            <div><span class="section-kicker">Seu portfólio</span><h3>Itens do catálogo <span id="productCount" class="count-badge">0</span></h3></div>
+                            <label class="catalog-search"><i class="fas fa-search" aria-hidden="true"></i><input id="productSearch" type="search" placeholder="Buscar item" aria-label="Buscar item no catálogo"></label>
+                        </div>
+                        <div id="productList" class="product-list"></div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="salesView" class="view-panel hidden">
+                <div class="page-section-heading">
+                    <span class="section-kicker">Acompanhamento de vendas</span>
+                    <h2>Gerencie suas vendas e cobranças.</h2>
+                    <p>Registre pedidos e acompanhe os valores que ainda faltam receber.</p>
+                </div>
+                <div class="sales-kpis">
+                    <article class="overview-card overview-revenue"><span>Total recebido</span><strong id="salesRevenue">R$ 0,00</strong><small>Vendas confirmadas</small></article>
+                    <article class="overview-card overview-pending"><span>A receber</span><strong id="salesPending">R$ 0,00</strong><small id="salesPendingCount">0 vendas em aberto</small></article>
+                    <article class="overview-card overview-products"><span>Vendas do período</span><strong id="salesCount">0</strong><small>Pedidos registrados</small></article>
+                </div>
+                <div class="management-layout sales-layout">
+                    <form id="saleForm" class="card management-form">
+                        <div class="section-heading"><div><span class="section-kicker">Novo pedido</span><h3>Registrar venda</h3></div></div>
+                        <div class="input-wrapper">
+                            <label for="saleProduct">Produto ou serviço</label>
+                            <select id="saleProduct" required><option value="">Escolha no catálogo</option></select>
+                        </div>
+                        <div id="saleCustomFields" class="sale-custom-fields hidden">
+                            <div class="input-wrapper">
+                                <label for="saleItemName">Descrição do item</label>
+                                <input id="saleItemName" type="text" maxlength="200" placeholder="Ex.: Instalação especial">
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="saleItemKind">Tipo</label>
+                                <select id="saleItemKind"><option value="produto">Produto</option><option value="servico">Serviço</option></select>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="saleUnitPrice">Preço unitário (R$)</label>
+                                <input id="saleUnitPrice" type="number" min="0.01" max="999999999.99" step="0.01" placeholder="0,00">
+                            </div>
+                        </div>
+                        <div id="saleStockHint" class="sale-stock-hint hidden"></div>
+                        <div class="input-wrapper">
+                            <label for="saleQuantity">Quantidade</label>
+                            <input id="saleQuantity" type="number" min="1" step="1" value="1" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="saleCustomer">Cliente <span class="label-hint">Opcional</span></label>
+                            <input id="saleCustomer" type="text" maxlength="200" placeholder="Nome do cliente">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="saleDate">Data da venda</label>
+                            <input id="saleDate" type="date" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="saleInitialStatus">Situação do pedido</label>
+                            <select id="saleInitialStatus"><option value="pendente">Aguardando pagamento</option><option value="paga">Já recebida</option></select>
+                        </div>
+                        <div class="sale-total-box"><span>Total do pedido</span><strong id="saleTotal">R$ 0,00</strong></div>
+                        <button id="saleSubmit" class="primary-btn form-submit" type="submit"><i class="fas fa-check"></i> Registrar pedido</button>
+                        <p id="saleMessage" class="form-message hidden" role="status" aria-live="polite"></p>
+                        <p class="helper-note"><i class="fas fa-circle-info"></i> Gere um link de pagamento demonstrativo para compartilhar o resumo do pedido. Ele não processa pagamentos e, por usar o localhost, só pode ser aberto neste computador.</p>
+                    </form>
+                    <section class="card sales-results">
+                        <div class="section-heading"><div><span class="section-kicker">Seu histórico</span><h3>Pedidos recentes</h3></div><label class="sales-filter"><span>Status</span><select id="salesFilter"><option value="todas">Todos</option><option value="pendente">Em aberto</option><option value="paga">Pagos</option><option value="cancelada">Cancelados</option></select></label></div>
+                        <div id="salesList" class="sales-list"></div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="teamView" class="view-panel hidden">
+                <div class="page-section-heading">
+                    <span class="section-kicker">Gestão da equipe</span>
+                    <h2>Organize sua equipe em um só lugar.</h2>
+                    <p>Organize os contatos, as funções e a situação de cada integrante em um só lugar.</p>
+                </div>
+                <div class="management-layout">
+                    <form id="teamForm" class="card management-form">
+                        <div class="section-heading"><div><span class="section-kicker">Equipe local</span><h3 id="teamFormTitle">Adicionar integrante</h3></div></div>
+                        <input id="teamMemberId" type="hidden">
+                        <div class="input-wrapper">
+                            <label for="teamName">Nome</label>
+                            <input id="teamName" type="text" maxlength="200" placeholder="Nome do integrante" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="teamRole">Função / cargo</label>
+                            <input id="teamRole" type="text" maxlength="80" placeholder="Ex.: Vendas" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="teamEmail">E-mail</label>
+                            <input id="teamEmail" type="email" maxlength="254" placeholder="nome@empresa.com" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="teamPhone">Telefone</label>
+                            <input id="teamPhone" type="tel" maxlength="40" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="teamStatus">Situação</label>
+                            <select id="teamStatus"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select>
+                        </div>
+                        <div class="form-actions"><button id="cancelTeamEdit" class="secondary-btn hidden" type="button">Cancelar</button><button class="primary-btn" type="submit"><i class="fas fa-user-plus"></i> Salvar integrante</button></div>
+                        <p id="teamMessage" class="form-message hidden" role="status" aria-live="polite"></p>
+                        <p class="helper-note"><i class="fas fa-lock"></i> Este cadastro organiza contatos; não cria um login nem concede acesso ao sistema.</p>
+                    </form>
+                    <section class="card team-results">
+                        <div class="section-heading"><div><span class="section-kicker">Pessoas</span><h3>Integrantes da equipe <span id="teamCount" class="count-badge">0</span></h3></div></div>
+                        <div id="teamList" class="team-list"></div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="statementView" class="view-panel hidden">
+                <div class="page-section-heading">
+                    <span class="section-kicker">Controle financeiro</span>
+                    <h2>Acompanhe suas entradas e saídas.</h2>
+                    <p>Consulte recebimentos e pagamentos, acompanhe pendências e exporte o período.</p>
+                </div>
+                <section class="card export-card finance-card">
+                    <div class="export-header">
+                        <div><p class="section-kicker">Histórico financeiro</p><h3><i class="fas fa-arrow-right-arrow-left"></i> Entradas e saídas</h3></div>
+                        <div class="export-actions"><button id="excelBtn" type="button" class="secondary-btn"><i class="fas fa-file-excel"></i> Exportar Excel</button><button id="pdfBtn" type="button" class="primary-btn"><i class="fas fa-file-pdf"></i> Exportar PDF</button></div>
+                    </div>
+                    <form id="transactionForm" class="transaction-form">
+                        <div class="input-wrapper"><label for="transactionType">Movimentação</label><select id="transactionType" required><option value="entrada">Entrada / recebimento</option><option value="saida">Saída / pagamento</option></select></div>
+                        <div class="input-wrapper"><label for="transactionDescription">Descrição</label><input id="transactionDescription" type="text" maxlength="200" placeholder="Ex.: Venda de produto" required></div>
+                        <div class="input-wrapper"><label for="transactionCategory">Categoria</label><select id="transactionCategory" required><option value="Venda">Venda</option><option value="Serviço">Serviço</option><option value="Fornecedores">Fornecedores</option><option value="Salários">Salários</option><option value="Aluguel">Aluguel</option><option value="Impostos">Impostos</option><option value="Transporte">Transporte</option><option value="Outros">Outros</option></select></div>
+                        <div class="input-wrapper"><label for="transactionAmount">Valor (R$)</label><input id="transactionAmount" type="number" min="0.01" max="999999999.99" step="0.01" placeholder="0,00" required></div>
+                        <div class="input-wrapper"><label for="transactionDate">Data</label><input id="transactionDate" type="date" required></div>
+                        <div class="input-wrapper"><label for="transactionStatus">Situação</label><select id="transactionStatus" required><option value="confirmada">Recebido / pago</option><option value="pendente">Pendente</option></select></div>
+                        <button class="primary-btn transaction-submit" type="submit"><i class="fas fa-plus"></i> Registrar movimentação</button>
+                    </form>
+                    <p id="transactionMessage" class="transaction-message hidden" role="status" aria-live="polite"></p>
+                    <div class="filters">
+                        <div class="filter-item"><label for="monthFilter">Mês</label><select id="monthFilter"><option value="todos">Todos</option></select></div>
+                        <div class="filter-item"><label for="yearFilter">Ano</label><select id="yearFilter"><option value="todos">Todos</option></select></div>
+                        <div class="filter-item"><label for="typeFilter">Movimentação</label><select id="typeFilter"><option value="todas">Entradas e saídas</option><option value="entrada">Entradas</option><option value="saida">Saídas</option></select></div>
+                    </div>
+                    <div class="receipt-summary finance-summary">
+                        <div class="summary-income"><span>Entradas confirmadas</span><strong id="totalEntradas">R$ 0,00</strong></div>
+                        <div class="summary-expense"><span>Saídas confirmadas</span><strong id="totalSaidas">R$ 0,00</strong></div>
+                        <div class="summary-balance"><span>Saldo realizado</span><strong id="saldoFinanceiro">R$ 0,00</strong></div>
+                        <div class="summary-pending"><span>Total pendente</span><strong id="totalPendente">R$ 0,00</strong></div>
+                    </div>
+                    <div class="table-wrap"><table class="receipt-table transaction-table"><thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Categoria</th><th>Situação</th><th>Valor</th><th>Ação</th></tr></thead><tbody id="transactionTableBody"></tbody></table></div>
+                </section>
+            </section>
 
             <section id="profileView" class="view-panel hidden">
                 <div class="card profile-card">
@@ -290,6 +538,8 @@
             </section>
         </div>
     </div>
+
+    <section id="pricePrintSheet" class="price-print-sheet" aria-label="Detalhamento do preço para impressão"></section>
 
     <script src="index.js"></script>
 </body>
